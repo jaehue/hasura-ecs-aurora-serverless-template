@@ -508,6 +508,21 @@ Resources:
               Value: !Ref 'HasuraJwtSecret'
             - Name: 'HASURA_GRAPHQL_CORS_DOMAIN'
               Value: !Ref 'HasuraCorsDomain'
+            - Name: 'PG_DATABASE_URL'
+              Value:
+                !Join [
+                  '',
+                  [
+                    'postgres://',
+                    !Ref 'DBMasterUsername',
+                    ':',
+                    !Ref 'DBMasterUserPassword',
+                    '@',
+                    !GetAtt 'AuroraCluster.Endpoint.Address',
+                    ':5432/',
+                    !Ref 'DBName',
+                  ],
+                ]
           LogConfiguration:
             LogDriver: awslogs
             Options:
